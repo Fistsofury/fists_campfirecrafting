@@ -1,5 +1,5 @@
 local sharedItems = exports['qbr-core']:GetItems()
-local campfire = 0+
+local campfire = 0
 
 
 
@@ -200,7 +200,7 @@ RegisterNetEvent('fists_campfirecrafting:client:menu', function(data)
             params = {
                 event = 'qbr-menu:client:produceMenu',
                 args = {
-                    number = 3,
+                    number = 4,
                 }
             }
         },
@@ -314,13 +314,13 @@ RegisterNetEvent("fists_campfirefrafting:coffee")
 AddEventHandler("fists_campfirefrafting:coffee", function()
 	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
 		if hasItem then
-			exports['qbr-core']:Progressbar("coffee_beans", "Brewing Coffee..", 3000, false, true, {
+			exports['qbr-core']:Progressbar("coffeebeans", "Brewing Coffee..", 3000, false, true, {
 				disableMovement = true,
 				disableCarMovement = false,
 				disableMouse = false,
 				disableCombat = true,
 			}, {}, {}, {}, function() -- Done
-				TriggerServerEvent('QBCore:Server:RemoveItem', "coffee_beans", 4)
+				TriggerServerEvent('QBCore:Server:RemoveItem', "coffeebeans", 4)
                 TriggerServerEvent('QBCore:Server:RemoveItem', "water", 1)
 				TriggerServerEvent('QBCore:Server:AddItem', "coffee", 1)
 				TriggerEvent("inventory:client:ItemBox", sharedItems["coffee"], "add")
@@ -330,7 +330,7 @@ AddEventHandler("fists_campfirefrafting:coffee", function()
 		else
 			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
 		end
-	end, { ['coffee_beans'] = 4, ['water'] = 1 })
+	end, { ['coffeebeans'] = 4, ['water'] = 1 })
 end)
 --steak
 RegisterNetEvent("fists_campfirefrafting:steak")
@@ -392,7 +392,7 @@ AddEventHandler("fists_campfirefrafting:cornstarch", function()
 				TriggerServerEvent('QBCore:Server:RemoveItem', "corn", 2)
                 TriggerServerEvent('QBCore:Server:RemoveItem', "sugar", 1)
 				TriggerServerEvent('QBCore:Server:AddItem', "cornstarch", 1)
-				TriggerEvent("inventory:client:ItemBox", sharedItems["cornbread"], "add")
+				TriggerEvent("inventory:client:ItemBox", sharedItems["cornstarch"], "add")
 				exports['qbr-core']:Notify(9, 'You have grounded the corn into starch', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
 				
 			end)
