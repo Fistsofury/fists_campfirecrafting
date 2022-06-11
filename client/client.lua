@@ -208,6 +208,8 @@ RegisterNetEvent('fists_campfirecrafting:client:menu', function(data)
 end)
 
 --sub cooking menu categories
+
+--cooking
 RegisterNetEvent('qbr-menu:client:cookingMenu', function(data)
     local number = data.number
     exports['qbr-menu']:openMenu({
@@ -305,6 +307,33 @@ RegisterNetEvent('qbr-menu:client:produceMenu', function(data)
                 event = "fists_campfirefrafting:cornstarch",
 
             }
+        },
+        {
+            header = 'Cigar',
+            txt = '4 x Dried Tobacco & 1 x Tobacco leaves',
+            icon = 'fas fa-code-merge',
+            params = {
+                event = "fists_campfirefrafting:cigar",
+
+            }
+        },
+        {
+            header = 'Dried tobacco',
+            txt = '1 x Tobacco',
+            icon = 'fas fa-code-merge',
+            params = {
+                event = "fists_campfirefrafting:driedtobacco",
+
+            }
+        },
+        {
+            header = 'Tobacco Leaves',
+            txt = '5 x Tobacco',
+            icon = 'fas fa-code-merge',
+            params = {
+                event = "fists_campfirefrafting:tobaccoleaves",
+
+            }
         }
 
     })
@@ -400,4 +429,72 @@ AddEventHandler("fists_campfirefrafting:cornstarch", function()
 			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
 		end
 	end, { ['corn'] = 2, ['sugar'] = 1 })
+end)
+
+RegisterNetEvent("fists_campfirefrafting:cigar")
+AddEventHandler("fists_campfirefrafting:cigar", function()
+	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
+		if hasItem then
+			exports['qbr-core']:Progressbar("cigar", "Rolling Cigar..", 3000, false, true, {
+				disableMovement = true,
+				disableCarMovement = false,
+				disableMouse = false,
+				disableCombat = true,
+			}, {}, {}, {}, function() -- Done
+				TriggerServerEvent('QBCore:Server:RemoveItem', "tobaccodry", 2)
+                TriggerServerEvent('QBCore:Server:RemoveItem', "tobacco_leaves", 1)
+				TriggerServerEvent('QBCore:Server:AddItem', "cigar", 1)
+				TriggerEvent("inventory:client:ItemBox", sharedItems["cigar"], "add")
+				exports['qbr-core']:Notify(9, 'You have rolled a cigar', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
+				
+			end)
+		else
+			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+		end
+	end, { ['tobaccodry'] = 2, ['tobacco_leaves'] = 1 })
+end)
+
+RegisterNetEvent("fists_campfirefrafting:driedtobacco")
+AddEventHandler("fists_campfirefrafting:driedtobacco", function()
+	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
+		if hasItem then
+			exports['qbr-core']:Progressbar("driedtobacco", "Drying Tobacco..", 12000, false, true, {
+				disableMovement = true,
+				disableCarMovement = false,
+				disableMouse = false,
+				disableCombat = true,
+			}, {}, {}, {}, function() -- Done
+				TriggerServerEvent('QBCore:Server:RemoveItem', "tobacco", 1)
+                TriggerServerEvent('QBCore:Server:RemoveItem', "wood", 1)
+				TriggerServerEvent('QBCore:Server:AddItem', "tobaccodry", 1)
+				TriggerEvent("inventory:client:ItemBox", sharedItems["tobaccodry"], "add")
+				exports['qbr-core']:Notify(9, 'You have dried out your tobacco', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
+				
+			end)
+		else
+			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+		end
+	end, { ['tobacco'] = 2, ['wood'] = 1 })
+end)
+
+RegisterNetEvent("fists_campfirefrafting:tobaccoleaves")
+AddEventHandler("fists_campfirefrafting:tobaccoleaves", function()
+	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
+		if hasItem then
+			exports['qbr-core']:Progressbar("tobaccoleaves", "Rolling Tobacco Leaves..", 5000, false, true, {
+				disableMovement = true,
+				disableCarMovement = false,
+				disableMouse = false,
+				disableCombat = true,
+			}, {}, {}, {}, function() -- Done
+				TriggerServerEvent('QBCore:Server:RemoveItem', "tobacco", 5)
+				TriggerServerEvent('QBCore:Server:AddItem', "tobacco_leaves", 1)
+				TriggerEvent("inventory:client:ItemBox", sharedItems["tobacco_leaves"], "add")
+				exports['qbr-core']:Notify(9, 'You have rolled your tobacco leaves', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
+				
+			end)
+		else
+			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+		end
+	end, { ['tobacco'] = 5, })
 end)

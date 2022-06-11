@@ -11,6 +11,10 @@ Simple campfire & Crafting script to create receipes for your RedM server
 - qbr-core : https://github.com/qbcore-redm-framework
 - qbr-menu : https://github.com/qbcore-redm-framework/qbr-menu
 
+# Instructions
+
+If you want to add an additonal item to the script so that you can craft it go into the client file and scroll to the appropriate Sub Menu (line 212 - 312) and add your new item there. once doen make sure you cope and change the Net event further down and reference it in the new menu you made.
+
 # Shoutouts
 RexShack for part of his campfire script https://github.com/RexShack
 
