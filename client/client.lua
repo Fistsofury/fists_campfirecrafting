@@ -229,7 +229,7 @@ RegisterNetEvent('qbr-menu:client:cookingMenu', function(data)
                 event = "fists_campfirefrafting:steak",
 
             }
-        }
+        },
         {
             header = 'Lamb Steak',
             txt = '1 x Raw Meat & 1 x Salt',
