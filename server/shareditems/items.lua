@@ -3,3 +3,5 @@
 ['coffeeseeds'] 		= {['name'] = 'coffeeseeds', 		['label'] = 'Coffeeseeds',		['weight'] = 0,		['type'] = 'item', 	['image'] = 'seed_weed.png',			['unique'] = false,		['useable'] = true,		['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	['description'] = 'Placeholder'},
 ['rolling_paper']		= {['name'] = 'rolling_paper',		['label'] = 'Rolling Paper',	['weight'] = 0,		['type'] = 'item',	['image'] = 'rsg_coffee.png',			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	['combinable'] = nil, 	['level'] = 0,	['description'] = 'Rolls cigarettes'},
 ['tobacco_leaves']		= {['name'] = 'tobacco_leaves',		['label'] = 'Tobacco Leaves',	['weight'] = 0,		['type'] = 'item',	['image'] = 'rsg_tobaccodry.png',			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	['combinable'] = nil, 	['level'] = 0,	['description'] = 'Rolls cigars'},
+["cookkit"]				= {["name"] = "cookkit",			["label"] = "Cooking Kit",		["weight"] = 500, 	["type"] = "item",	["image"] = "rsg_cookkit.png",			['unique'] = false,		['useable'] = true,		['shouldClose'] = true,	['combinable'] = nil,	['level'] = 0,	["description"] = "used for cooking"},
+	

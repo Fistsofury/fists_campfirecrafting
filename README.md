@@ -12,7 +12,7 @@ Simple campfire & Crafting script to create receipes for your RedM server
 - qbr-menu : https://github.com/qbcore-redm-framework/qbr-menu
 
 # Items
-Items are used in conjunction with RSG scripts like corn from rsg_farming etc
+Items are used in conjunction with RSG scripts like corn from rsg_farming etc so be sure to check out his Github in Shoutouts
 
 # Instructions
 
