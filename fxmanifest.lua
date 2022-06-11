@@ -5,7 +5,7 @@ rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aw
 
 author 'Fistsofury'
 description 'Fistsofury : Campfire Crafting'
-version '0.0.1'
+version '0.0.3'
 
 client_script {
     'client/client.lua',

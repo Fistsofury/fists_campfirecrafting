@@ -1,5 +1,7 @@
 local sharedItems = exports['qbr-core']:GetItems()
-local campfire = 0
+local campfire = 0+
+
+
 
 function DrawText3Ds(x, y, z, text)
     local onScreen,_x,_y=GetScreenCoordFromWorldCoord(x, y, z)
@@ -10,6 +12,7 @@ function DrawText3Ds(x, y, z, text)
     SetTextCentre(1)
     DisplayText(str,_x,_y)
 end
+
 
 -- setup campfire
 RegisterNetEvent('fists_campfirecrafting:client:cookinggrill')
@@ -172,13 +175,32 @@ RegisterNetEvent('fists_campfirecrafting:client:menu', function(data)
             header = 'Brewing',
             txt = 'Brew Menu',
             icon = 'fas fa-code-pull-request',
-            -- disabled = false, -- optional, non-clickable and grey scale
-            -- hidden = true, -- optional, hides the button completely
             params = {
-                -- isServer = false, -- optional, specify event type
                 event = 'qbr-menu:client:brewingMenu',
                 args = {
                     number = 2,
+                }
+            }
+        },
+        {
+            header = 'Baking',
+            txt = 'Baking Menu',
+            icon = 'fas fa-code-pull-request',
+            params = {
+                event = 'qbr-menu:client:bakingMenu',
+                args = {
+                    number = 3,
+                }
+            }
+        },
+        {
+            header = 'Produce',
+            txt = 'Produce Menu',
+            icon = 'fas fa-code-pull-request',
+            params = {
+                event = 'qbr-menu:client:produceMenu',
+                args = {
+                    number = 3,
                 }
             }
         },
@@ -199,17 +221,26 @@ RegisterNetEvent('qbr-menu:client:cookingMenu', function(data)
         },
         {
             header = 'Venison Steak',
-            txt = '1 x Raw Meat',
+            txt = '1 x Raw Meat & 1 x Salt',
             icon = 'fas fa-code-merge',
             params = {
-                event = ""
+                event = "fists_campfirefrafting:steak",
+
+            }
+        }
+        {
+            header = 'Lamb Steak',
+            txt = '1 x Raw Meat & 1 x Salt',
+            icon = 'fas fa-code-merge',
+            params = {
+                event = "fists_campfirefrafting:;steak",
 
             }
         }
     })
 end)
 
-RegisterNetEvent('qbr-menu:client:brewMenu', function(data)
+RegisterNetEvent('qbr-menu:client:brewingMenu', function(data)
     local number = data.number
     exports['qbr-menu']:openMenu({
         {
@@ -222,56 +253,151 @@ RegisterNetEvent('qbr-menu:client:brewMenu', function(data)
         },
         {
             header = 'Coffee',
-            txt = '1 x Raw Meat',
+            txt = '4 x coffee beans & 1 x Water',
             icon = 'fas fa-code-merge',
             params = {
-                event = "fists_campfirefrafting:coffee"
+                event = "fists_campfirefrafting:coffee",
 
             }
         }
     })
 end)
 
+RegisterNetEvent('qbr-menu:client:bakingMenu', function(data)
+    local number = data.number
+    exports['qbr-menu']:openMenu({
+        {
+            header = 'Return to Crafting menu',
+            icon = 'fa-solid fa-backward',
+            params = {
+                event = 'fists_campfirecrafting:client:menu',
+                args = {}
+            }
+        },
+        {
+            header = 'Corn bread',
+            txt = '2 x Corn & 1 x Water',
+            icon = 'fas fa-code-merge',
+            params = {
+                event = "fists_campfirefrafting:cornbread",
+
+            }
+        }
+    })
+end)
+
+RegisterNetEvent('qbr-menu:client:produceMenu', function(data)
+    local number = data.number
+    exports['qbr-menu']:openMenu({
+        {
+            header = 'Return to Crafting menu',
+            icon = 'fa-solid fa-backward',
+            params = {
+                event = 'fists_campfirecrafting:client:menu',
+                args = {}
+            }
+        },
+        {
+            header = 'Corn Starch',
+            txt = '2 x Corn & 1 x Sugar',
+            icon = 'fas fa-code-merge',
+            params = {
+                event = "fists_campfirefrafting:cornstarch",
+
+            }
+        }
+
+    })
+end)
+--coffee
 RegisterNetEvent("fists_campfirefrafting:coffee")
 AddEventHandler("fists_campfirefrafting:coffee", function()
 	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
 		if hasItem then
-			exports['qbr-core']:Progressbar("coffee_beans", "Brewing Coffee..", 30000, false, true, {
+			exports['qbr-core']:Progressbar("coffee_beans", "Brewing Coffee..", 3000, false, true, {
 				disableMovement = true,
 				disableCarMovement = false,
 				disableMouse = false,
 				disableCombat = true,
 			}, {}, {}, {}, function() -- Done
 				TriggerServerEvent('QBCore:Server:RemoveItem', "coffee_beans", 4)
+                TriggerServerEvent('QBCore:Server:RemoveItem', "water", 1)
 				TriggerServerEvent('QBCore:Server:AddItem', "coffee", 1)
 				TriggerEvent("inventory:client:ItemBox", sharedItems["coffee"], "add")
 				exports['qbr-core']:Notify(9, 'You Brewed a coffee', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
 				
 			end)
 		else
-			exports['qbr-core']:Notify(9, 'You don\'t have the ingredients to make this!', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
 		end
-	end, { ['coffee'] = 1 })
+	end, { ['coffee_beans'] = 4, ['water'] = 1 })
 end)
-
+--steak
 RegisterNetEvent("fists_campfirefrafting:steak")
 AddEventHandler("fists_campfirefrafting:steak", function()
 	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
 		if hasItem then
-			exports['qbr-core']:Progressbar("apple", "Cooking Fish Steak..", 30000, false, true, {
+			exports['qbr-core']:Progressbar("raw_meat", "Cooking Fish Steak..", 30000, false, true, {
 				disableMovement = true,
 				disableCarMovement = false,
 				disableMouse = false,
 				disableCombat = true,
 			}, {}, {}, {}, function() -- Done
-				TriggerServerEvent('QBCore:Server:RemoveItem', "apple", 4)
+				TriggerServerEvent('QBCore:Server:RemoveItem', "raw_meat", 1)
+                TriggerServerEvent('QBCore:Server:RemoveItem', "salt", 1)
 				TriggerServerEvent('QBCore:Server:AddItem', "cooked_meat", 1)
 				TriggerEvent("inventory:client:ItemBox", sharedItems["cooked_meat"], "add")
-				exports['qbr-core']:Notify(9, 'You Brewed a coffee', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
+				exports['qbr-core']:Notify(9, 'You made a steak', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
 				
 			end)
 		else
-			exports['qbr-core']:Notify(9, 'You don\'t have the ingredients to make this!', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
 		end
-	end, { ['cooked_meat'] = 1 })
+	end, { ['raw_meat'] = 1, ['salt'] = 1 })
+end)
+--bread
+RegisterNetEvent("fists_campfirefrafting:cornbread")
+AddEventHandler("fists_campfirefrafting:cornbread", function()
+	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
+		if hasItem then
+			exports['qbr-core']:Progressbar("corn", "Baking bread..", 3000, false, true, {
+				disableMovement = true,
+				disableCarMovement = false,
+				disableMouse = false,
+				disableCombat = true,
+			}, {}, {}, {}, function() -- Done
+				TriggerServerEvent('QBCore:Server:RemoveItem', "corn", 2)
+                TriggerServerEvent('QBCore:Server:RemoveItem', "water", 1)
+				TriggerServerEvent('QBCore:Server:AddItem', "cornbread", 1)
+				TriggerEvent("inventory:client:ItemBox", sharedItems["cornbread"], "add")
+				exports['qbr-core']:Notify(9, 'You have baked a loaf of Corn Bread', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
+				
+			end)
+		else
+			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+		end
+	end, { ['corn'] = 2, ['water'] = 1 })
+end)
+
+RegisterNetEvent("fists_campfirefrafting:cornstarch")
+AddEventHandler("fists_campfirefrafting:cornstarch", function()
+	exports['qbr-core']:TriggerCallback('QBCore:HasItem', function(hasItem) 
+		if hasItem then
+			exports['qbr-core']:Progressbar("corn", "Making Starch..", 3000, false, true, {
+				disableMovement = true,
+				disableCarMovement = false,
+				disableMouse = false,
+				disableCombat = true,
+			}, {}, {}, {}, function() -- Done
+				TriggerServerEvent('QBCore:Server:RemoveItem', "corn", 2)
+                TriggerServerEvent('QBCore:Server:RemoveItem', "sugar", 1)
+				TriggerServerEvent('QBCore:Server:AddItem', "cornstarch", 1)
+				TriggerEvent("inventory:client:ItemBox", sharedItems["cornbread"], "add")
+				exports['qbr-core']:Notify(9, 'You have grounded the corn into starch', 5000, 0, 'inventory_items', 'consumable_drink_coffee_brewed', 'COLOR_WHITE')
+				
+			end)
+		else
+			exports['qbr-core']:Notify(9, 'Missing ingredients', 5000, 0, 'mp_lobby_textures', 'cross', 'COLOR_WHITE')
+		end
+	end, { ['corn'] = 2, ['sugar'] = 1 })
 end)
